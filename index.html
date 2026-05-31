@@ -149,6 +149,19 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .qs-code{font-size:13px;font-weight:700;color:var(--accent);min-width:52px;flex-shrink:0}
 .qs-desc{font-size:13px;flex:1;line-height:1.4}
 .qs-badge{font-size:10px;color:var(--text2);display:block;margin-top:2px}
+
+.similar-item{padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:5px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:8px}
+.similar-item:active,.similar-item.selected{background:var(--accent);border-color:var(--accent);color:#fff}
+.similar-item .si-code{font-size:11px;font-weight:700;color:var(--accent);min-width:44px;flex-shrink:0}
+.similar-item.selected .si-code{color:#fff}
+.eq-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;padding:8px 14px 4px;display:flex;align-items:center;gap:6px}
+.eq-section-title.cumple{color:var(--green)}
+.eq-section-title.falta{color:var(--yellow)}
+.eq-section-title.extra{color:#F97316}
+.falta-row{padding:8px 14px;display:flex;align-items:center;gap:8px;border-top:1px solid var(--border);opacity:.7}
+.falta-row .falta-icon{width:18px;height:18px;border:2px dashed var(--yellow);border-radius:4px;flex-shrink:0}
+.falta-name{font-size:12px;color:var(--text2);flex:1}
+.falta-code{font-size:11px;color:var(--text3)}
 </style>
 </head>
 <body>
@@ -253,14 +266,20 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 
 <!-- INVENTARIO -->
 <div class="screen" id="screen-inventario">
-  <div class="hdr"><img src="data:image/png;base64,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"><div><h1 id="inv-title">Inventario</h1><p id="inv-sub">Selecciona un proyecto</p></div></div>
-  <div id="inv-filters" class="search-wrap" style="display:none">
-    <select id="inv-upss" onchange="loadInvAmbs()"><option value="">Todas las UPSS</option></select>
-    <div class="row2" style="margin-top:8px">
-      <select id="inv-amb" onchange="loadInvEquipos()"><option value="">Todos los ambientes</option></select>
-      <div style="display:flex;align-items:center"><span id="inv-pct" style="font-size:12px;color:var(--text2)">0%</span></div>
+  <div class="hdr"><img src="data:image/png;base64,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"><div style="flex:1"><h1 id="inv-title">Mi Proyecto</h1><p id="inv-sub">Estructura real del establecimiento</p></div></div>
+  <div id="inv-filters" class="search-wrap" style="display:none;top:64px">
+    <div style="display:flex;gap:8px">
+      <select id="inv-upss" onchange="loadInvAmbs()" style="flex:1"><option value="">Todas las UPSS</option></select>
+      <button class="btn btn-ghost btn-sm" style="flex:0;padding:8px 10px;white-space:nowrap" onclick="openModal('add-upss')">+ UPSS</button>
     </div>
-    <div class="prog-wrap" style="margin-top:6px"><div class="prog-bar" id="inv-bar" style="width:0%"></div></div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <select id="inv-amb" onchange="loadInvEquipos()" style="flex:1"><option value="">Todos los ambientes</option></select>
+      <button class="btn btn-ghost btn-sm" style="flex:0;padding:8px 10px;white-space:nowrap" onclick="openAddAmbModal()">+ Amb.</button>
+    </div>
+    <div class="prog-wrap" style="margin-top:8px"><div class="prog-bar" id="inv-bar" style="width:0%"></div></div>
+    <div style="font-size:11px;color:var(--text2);margin-top:3px;display:flex;justify-content:space-between">
+      <span id="inv-pct-txt">0% completado</span><span id="inv-falt-txt" style="color:var(--yellow)"></span>
+    </div>
   </div>
   <div id="inv-content" style="padding-bottom:80px"><div class="empty"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg><p>Abre un proyecto para gestionar el inventario.</p></div></div>
 </div>
@@ -311,35 +330,8 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   </div>
 </div>
 
-<!-- MODAL AGREGAR AMBIENTE EXTRA -->
-<div class="modal-overlay" id="modal-nuevo-ambiente">
-  <div class="modal fade-in">
-    <h2>Agregar Ambiente</h2>
-    <div class="field"><label>UPSS / Servicio</label><input type="text" id="na-upss" placeholder="Ej: CONSULTA EXTERNA"></div>
-    <div class="field"><label>Nombre del ambiente *</label><input type="text" id="na-nombre" placeholder="Ej: TÓPICO DE URGENCIAS"></div>
-    <div class="field"><label>Notas</label><textarea id="na-notas" placeholder="Descripción del ambiente..."></textarea></div>
-    <div class="gap8" style="margin-top:14px">
-      <button class="btn btn-primary" onclick="saveNuevoAmbiente()">Agregar Ambiente</button>
-      <button class="btn btn-ghost" onclick="closeModal('nuevo-ambiente')">Cancelar</button>
-    </div>
-  </div>
 </div>
 
-<!-- MODAL AGREGAR EQUIPO EXTRA -->
-<div class="modal-overlay" id="modal-nuevo-equipo">
-  <div class="modal fade-in">
-    <h2>Agregar Equipo</h2>
-    <p style="font-size:12px;color:var(--text2);margin-bottom:12px">Equipo no incluido en la norma</p>
-    <div class="field"><label>Código</label><input type="text" id="ne-codigo" placeholder="Ej: EXT-001"></div>
-    <div class="field"><label>Descripción *</label><input type="text" id="ne-desc" placeholder="Nombre del equipo"></div>
-    <div class="field"><label>Cantidad</label><input type="text" id="ne-cant" placeholder="1" value="1"></div>
-    <div class="field"><label>UPSS</label><input type="text" id="ne-upss" placeholder="UPSS donde se ubica"></div>
-    <div class="field"><label>Ambiente</label><input type="text" id="ne-amb" placeholder="Ambiente donde se ubica"></div>
-    <div class="gap8" style="margin-top:14px">
-      <button class="btn btn-primary" onclick="saveNuevoEquipo()">Agregar Equipo</button>
-      <button class="btn btn-ghost" onclick="closeModal('nuevo-equipo')">Cancelar</button>
-    </div>
-  </div>
 </div>
 
 <!-- MODAL FICHA EQUIPO -->
@@ -452,6 +444,75 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <button class="btn btn-primary" onclick="saveCond()">💾 Guardar Condiciones</button>
       <button class="btn btn-ghost" onclick="closeModal('cond')">Cancelar</button>
     </div>
+  </div>
+</div>
+
+
+<!-- MODAL ADD UPSS -->
+<div class="modal-overlay" id="modal-add-upss">
+  <div class="modal fade-in">
+    <h2>Agregar UPSS</h2>
+    <div class="tabs"><div class="tab active" onclick="upssTab('norma')">Desde norma</div><div class="tab" onclick="upssTab('libre')">Nombre libre</div></div>
+    <div id="ut-norma">
+      <div class="field"><label>Norma</label><select id="au-norma" onchange="loadUPSSFromNorma()"><option value="">Selecciona norma...</option><option value="NTS-110">NTS-110 — Nivel II</option><option value="NTS-113">NTS-113 — Nivel I</option><option value="NTS-119">NTS-119 — Nivel III</option></select></div>
+      <div class="field"><label>UPSS de la norma</label><select id="au-upss-norma"><option value="">Primero selecciona norma...</option></select></div>
+      <div class="field"><label>Nombre en mi proyecto <span style="color:var(--text3);font-weight:400">(opcional, si es diferente)</span></label><input type="text" id="au-nombre-propio" placeholder="Ej: Consulta Externa Piso 1"></div>
+    </div>
+    <div id="ut-libre" style="display:none">
+      <div class="field"><label>Nombre de la UPSS *</label><input type="text" id="au-nombre-libre" placeholder="Ej: Unidad de Cuidados Especiales"></div>
+      <div class="field"><label>¿Similar a alguna UPSS de la norma? <span style="color:var(--text3);font-weight:400">(opcional)</span></label>
+        <input type="text" id="au-similar-q" placeholder="Buscar..." oninput="searchUPSSSimilar()">
+        <div id="au-similar-list" style="margin-top:6px;max-height:180px;overflow-y:auto"></div>
+        <input type="hidden" id="au-similar-val"><input type="hidden" id="au-similar-norma">
+      </div>
+    </div>
+    <div class="gap8" style="margin-top:14px"><button class="btn btn-primary" onclick="saveUPSS()">Agregar UPSS</button><button class="btn btn-ghost" onclick="closeModal('add-upss')">Cancelar</button></div>
+  </div>
+</div>
+
+<!-- MODAL ADD AMBIENTE -->
+<div class="modal-overlay" id="modal-add-amb">
+  <div class="modal fade-in">
+    <h2>Agregar Ambiente</h2>
+    <div class="tabs"><div class="tab active" onclick="ambTab('norma')">Desde norma</div><div class="tab" onclick="ambTab('libre')">Nombre libre</div></div>
+    <div id="at-norma">
+      <div class="field"><label>UPSS de la norma</label><select id="aa-upss-norma" onchange="loadAmbsFromNorma()"><option value="">Selecciona UPSS...</option></select></div>
+      <div class="field"><label>Ambiente de la norma</label><select id="aa-amb-norma"><option value="">Primero selecciona UPSS...</option></select></div>
+      <div class="field"><label>Nombre en mi proyecto <span style="color:var(--text3);font-weight:400">(opcional)</span></label><input type="text" id="aa-nombre-propio" placeholder="Ej: Consultorio 1er Piso"></div>
+    </div>
+    <div id="at-libre" style="display:none">
+      <div class="field"><label>Nombre del ambiente *</label><input type="text" id="aa-nombre-libre" placeholder="Ej: Tópico de Urgencias"></div>
+      <div class="field"><label>¿Similar a algún ambiente de la norma? <span style="color:var(--text3);font-weight:400">(opcional)</span></label>
+        <input type="text" id="aa-similar-q" placeholder="Buscar en norma..." oninput="searchAmbSimilar()">
+        <div id="aa-similar-list" style="margin-top:6px;max-height:180px;overflow-y:auto"></div>
+        <input type="hidden" id="aa-similar-val"><input type="hidden" id="aa-similar-norma-val"><input type="hidden" id="aa-similar-upss-val">
+      </div>
+    </div>
+    <div class="gap8" style="margin-top:14px"><button class="btn btn-primary" onclick="saveAmbiente()">Agregar Ambiente</button><button class="btn btn-ghost" onclick="closeModal('add-amb')">Cancelar</button></div>
+  </div>
+</div>
+
+<!-- MODAL ADD EQUIPO AL AMBIENTE -->
+<div class="modal-overlay" id="modal-add-eq-amb">
+  <div class="modal fade-in">
+    <h2 id="aeq-title">Agregar Equipo al Ambiente</h2>
+    <div class="tabs"><div class="tab active" onclick="eqTab('norma')">Desde norma</div><div class="tab" onclick="eqTab('libre')">Equipo libre</div></div>
+    <div id="et-norma">
+      <p style="font-size:12px;color:var(--text2);margin-bottom:8px">Equipos de la norma vinculada a este ambiente</p>
+      <input type="search" id="aeq-q" placeholder="Buscar equipo..." oninput="filterEqNorma()" style="margin-bottom:8px">
+      <div id="aeq-norma-list" style="max-height:300px;overflow-y:auto"></div>
+    </div>
+    <div id="et-libre" style="display:none">
+      <div class="field"><label>Nombre del equipo *</label><input type="text" id="aeq-nombre" placeholder="Ej: Televisor 40 pulgadas"></div>
+      <div class="field"><label>Código propio</label><input type="text" id="aeq-codigo" placeholder="Ej: TV-001"></div>
+      <div class="field"><label>Cantidad</label><input type="text" id="aeq-cant" placeholder="1" value="1"></div>
+      <div class="field"><label>¿Equivale a algún equipo de la norma? <span style="color:var(--text3);font-weight:400">(opcional)</span></label>
+        <input type="text" id="aeq-sim-q" placeholder="Buscar código o nombre..." oninput="searchEqSimilar()">
+        <div id="aeq-sim-list" style="margin-top:6px;max-height:160px;overflow-y:auto"></div>
+        <input type="hidden" id="aeq-sim-cod"><input type="hidden" id="aeq-sim-desc">
+      </div>
+    </div>
+    <div class="gap8" style="margin-top:14px"><button class="btn btn-primary" onclick="saveEqAmbiente()">Agregar Equipo</button><button class="btn btn-ghost" onclick="closeModal('add-eq-amb')">Cancelar</button></div>
   </div>
 </div>
 
@@ -610,100 +671,381 @@ window.delProyecto=async function(id){
 window.openProject=id=>{activeProjId=id;showScreen('inventario')}
 window.openAmbientes=id=>{activeProjId=id;document.getElementById('amb-proy').value=id;showScreen('ambientes');loadAmbProy()}
 
-// ── INVENTARIO ───────────────────────────────────────────────────────────────
+
+// ── INVENTARIO NUEVO ─────────────────────────────────────────────────────────
+let _proj=null, _upssMode='norma', _ambMode='norma', _eqMode='norma';
+let _curUpssList=[], _curAmbKey='', _curAmbNormaItems=[];
+
 window.loadInvScreen=async function(){
-  const proj=await fsGet('proyectos',activeProjId);if(!proj) return;
-  document.getElementById('inv-title').textContent=proj.nombre;
-  document.getElementById('inv-sub').textContent=proj.norma+(proj.categoria?' — '+proj.categoria:'');
+  _proj=await fsGet('proyectos',activeProjId);
+  if(!_proj) return;
+  document.getElementById('inv-title').textContent=_proj.nombre;
+  document.getElementById('inv-sub').textContent=_proj.norma+((_proj.categoria)?' — '+_proj.categoria:'');
   document.getElementById('inv-filters').style.display='block';
-  const items=NTS[proj.norma]||[];
-  const extras=await fsQuery('equipos_extra','proyId',activeProjId);
-  const allUpss=[...new Set([...items.map(x=>x.u),...extras.map(x=>x.upss||'EXTRA')])].sort();
-  const el=document.getElementById('inv-upss');
-  el.innerHTML='<option value="">Todas las UPSS</option>';
-  allUpss.forEach(u=>el.innerHTML+=`<option value="${esc(u)}">${u}</option>`);
+  await refreshUPSSSelector();
   loadInvAmbs();
 }
+
+async function refreshUPSSSelector(){
+  const myUpss=await fsQuery('my_upss','proyId',activeProjId);
+  _curUpssList=myUpss;
+  const el=document.getElementById('inv-upss');
+  const cur=el.value;
+  el.innerHTML='<option value="">Todas las UPSS ('+myUpss.length+')</option>';
+  myUpss.forEach(u=>el.innerHTML+=`<option value="${esc(u.id)}">${u.nombre}${u.normaUpss&&u.normaUpss!==u.nombre?' ['+u.normaUpss+']':''}</option>`);
+  if(cur) el.value=cur;
+}
+
 window.loadInvAmbs=async function(){
-  const proj=await fsGet('proyectos',activeProjId);if(!proj) return;
-  const upss=document.getElementById('inv-upss').value;
-  let items=NTS[proj.norma]||[];
-  const extras=await fsQuery('equipos_extra','proyId',activeProjId);
-  if(upss){items=items.filter(x=>x.u===upss);}
-  const extraAmbs=extras.filter(x=>!upss||(x.upss||'EXTRA')===upss).map(x=>x.amb||'SIN AMBIENTE');
-  const allAmbs=[...new Set([...items.map(x=>x.a),...extraAmbs])].sort();
+  const upssId=document.getElementById('inv-upss').value;
+  const myAmbs=await fsQuery('my_ambientes','proyId',activeProjId);
+  const filtered=upssId?myAmbs.filter(a=>a.upssId===upssId):myAmbs;
   const el=document.getElementById('inv-amb');
-  el.innerHTML='<option value="">Todos los ambientes</option>';
-  allAmbs.forEach(a=>el.innerHTML+=`<option value="${esc(a)}">${a}</option>`);
+  const cur=el.value;
+  el.innerHTML='<option value="">Todos los ambientes ('+filtered.length+')</option>';
+  filtered.forEach(a=>el.innerHTML+=`<option value="${esc(a.id)}">${a.nombre}${a.normaAmb&&a.normaAmb!==a.nombre?' ['+a.normaAmb+']':''}</option>`);
+  if(cur) el.value=cur;
   loadInvEquipos();
 }
+
 window.loadInvEquipos=async function(){
-  const proj=await fsGet('proyectos',activeProjId);if(!proj) return;
-  const upss=document.getElementById('inv-upss').value,amb=document.getElementById('inv-amb').value;
-  let items=NTS[proj.norma]||[];
-  if(upss) items=items.filter(x=>x.u===upss);
-  if(amb) items=items.filter(x=>x.a===amb);
-  const extras=await fsQuery('equipos_extra','proyId',activeProjId);
-  let extrasF=extras;
-  if(upss) extrasF=extrasF.filter(x=>(x.upss||'EXTRA')===upss);
-  if(amb) extrasF=extrasF.filter(x=>(x.amb||'SIN AMBIENTE')===amb);
-  const invItems=await fsQuery('inventario','proyId',activeProjId);
-  const invMap={};invItems.forEach(x=>invMap[x.itemKey]=x);
-  const ficItems=await fsQuery('fichas','proyId',activeProjId);
-  const ficMap={};ficItems.forEach(x=>ficMap[x.itemKey]=x);
-  const allItems=NTS[proj.norma]||[];
-  const allExtras=await fsQuery('equipos_extra','proyId',activeProjId);
-  const total=allItems.length+allExtras.length;
-  const checked=invItems.filter(x=>x.checked).length;
-  const pct=total?Math.round(checked/total*100):0;
-  document.getElementById('inv-pct').textContent=pct+'%';
-  document.getElementById('inv-bar').style.width=pct+'%';
-  const groups={};
-  items.forEach(x=>{if(!groups[x.a])groups[x.a]={upss:x.u,items:[],isExtra:false};groups[x.a].items.push({...x,isExtra:false})});
-  extrasF.forEach(x=>{const a=x.amb||'SIN AMBIENTE';if(!groups[a])groups[a]={upss:x.upss||'EXTRA',items:[],isExtra:true};groups[a].items.push({...x,isExtra:true,d:x.desc,c:x.codigo||'EXT',q:x.cant||1})});
-  let html=`<div style="padding:8px 16px 4px;display:flex;gap:6px;flex-wrap:wrap">
-    <button class="btn btn-ghost btn-sm" style="flex:1" onclick="openModal('nuevo-ambiente')"><svg viewBox="0 0 24 24" style="width:14px;height:14px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Ambiente extra</button>
-    <button class="btn btn-ghost btn-sm" style="flex:1" onclick="openModal('nuevo-equipo')"><svg viewBox="0 0 24 24" style="width:14px;height:14px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Equipo extra</button>
-  </div>`;
-  if(!Object.keys(groups).length){html+='<div class="empty"><p>Sin equipos para mostrar.</p></div>';document.getElementById('inv-content').innerHTML=html;return}
-  Object.entries(groups).forEach(([a,g])=>{
-    const tc=g.items.filter(x=>{const k=(proj.norma||'EXT')+'_'+(x.u||x.upss||'EXT')+'_'+a+'_'+(x.c||x.codigo||'EXT');return invMap[k]?.checked}).length;
-    html+=`<div class="card"><div class="card-hdr" onclick="toggleCard(this)"><div style="flex:1;min-width:0"><div style="font-size:11px;color:var(--text2);margin-bottom:2px">${g.upss}</div><h3>${a}</h3></div><span style="font-size:12px;color:${tc===g.items.length?'var(--green)':'var(--text2)'};flex-shrink:0">${tc}/${g.items.length} ›</span></div><div class="card-body">`;
-    g.items.forEach(x=>{
-      const k=(proj.norma||'EXT')+'_'+(x.u||x.upss||'EXT')+'_'+a+'_'+(x.c||x.codigo||'EXT');
-      const inv=invMap[k]||{};const hasFic=!!ficMap[k];
-      html+=`<div class="eq-row" id="row_${CSS.escape(k)}">
-        <div class="eq-check ${inv.checked?'checked':''}" onclick="toggleCheck('${esc(k)}','${esc(proj.norma||'EXT')}','${esc(x.u||x.upss||'EXT')}','${esc(a)}','${esc(x.c||x.codigo||'EXT')}')"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-        <div class="eq-info" onclick="openFicha('${esc(k)}','${esc(x.d||x.desc||'')}')">
-          <div class="eq-name">${x.d||x.desc||''}</div>
-          <div class="eq-meta">
-            <span class="pill pill-gray" style="font-size:10px">${x.c||x.codigo||'EXT'}</span>
-            ${x.isExtra?'<span class="pill pill-orange" style="font-size:10px">Extra</span>':''}
-            ${hasFic?'<span class="pill pill-green" style="font-size:10px">✓ Ficha</span>':'<span style="font-size:10px;color:var(--text3)">Agregar ficha →</span>'}
-          </div>
+  if(!_proj) return;
+  const ambId=document.getElementById('inv-amb').value;
+  const myAmbs=await fsQuery('my_ambientes','proyId',activeProjId);
+  const ambs=ambId?myAmbs.filter(a=>a.id===ambId):myAmbs;
+
+  // Count totals for progress
+  let totalNorma=0,totalExtra=0,checked=0;
+  const invAll=await fsQuery('inventario','proyId',activeProjId);
+  const invMap={};invAll.forEach(x=>invMap[x.itemKey]=x);
+
+  let html='';
+  for(const amb of ambs){
+    const normaItems=amb.normaAmb||amb.normaNorma?
+      (NTS[amb.normaNorma]||[]).filter(x=>x.a===amb.normaAmb):
+      (NTS[_proj.norma]||[]).filter(x=>x.a===(amb.normaAmb||amb.nombre));
+    const myEqs=await fsQuery('my_equipos','ambId',amb.id);
+    const allEqs=[...myEqs];
+    // Map norma items to my equipos
+    const linkedCodes=new Set(myEqs.filter(e=>e.normaCode).map(e=>e.normaCode));
+    const faltantes=normaItems.filter(x=>!linkedCodes.has(x.c));
+
+    totalNorma+=normaItems.length;
+    totalExtra+=myEqs.filter(e=>!e.normaCode).length;
+    checked+=myEqs.filter(e=>{const k=activeProjId+'_amb_'+e.id;return invMap[k]?.checked}).length;
+
+    const myChecked=myEqs.filter(e=>{const k=activeProjId+'_amb_'+e.id;return invMap[k]?.checked}).length;
+    html+=`<div class="card">
+      <div class="card-hdr" onclick="toggleCard(this)">
+        <div style="flex:1;min-width:0">
+          <div style="font-size:11px;color:var(--text2);margin-bottom:2px">${amb.upssNombre||''}</div>
+          <h3>${amb.nombre}</h3>
+          ${amb.normaAmb&&amb.normaAmb!==amb.nombre?`<div style="font-size:10px;color:var(--text3)">Norma: ${amb.normaAmb}</div>`:''}
         </div>
-        <div class="eq-qty">×${x.q||x.cant||1}</div>
-      </div>`;
-    });
+        <div style="text-align:right;flex-shrink:0">
+          <div style="font-size:12px;color:${myChecked===myEqs.length&&myEqs.length>0?'var(--green)':'var(--text2)'}">${myChecked}/${myEqs.length}</div>
+          ${faltantes.length>0?`<div style="font-size:10px;color:var(--yellow)">⚠️ ${faltantes.length} falt.</div>`:''}
+        </div>
+      </div>
+      <div class="card-body">`;
+
+    // MY EQUIPOS
+    if(myEqs.length){
+      html+=`<div class="eq-section-title cumple"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2"><path d="M9 11l3 3L22 4"/></svg>Equipos del proyecto (${myEqs.length})</div>`;
+      myEqs.forEach(eq=>{
+        const k=activeProjId+'_amb_'+eq.id;
+        const inv=invMap[k]||{};
+        html+=`<div class="eq-row" id="row_${CSS.escape(k)}">
+          <div class="eq-check ${inv.checked?'checked':''}" onclick="toggleCheckAmb('${esc(k)}','${esc(eq.id)}')"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="eq-info" onclick="openFicha('${esc(k)}','${esc(eq.nombre)}')">
+            <div class="eq-name">${eq.nombre}</div>
+            <div class="eq-meta">
+              ${eq.codigo?`<span class="pill pill-gray" style="font-size:10px">${eq.codigo}</span>`:''}
+              ${eq.normaCode?`<span class="pill pill-blue" style="font-size:10px">≈ ${eq.normaCode}</span>`:''}
+              ${!eq.normaCode?'<span class="pill pill-orange" style="font-size:10px">Extra</span>':''}
+              ${inv.checked?'<span class="pill pill-green" style="font-size:10px">✓ Verificado</span>':''}
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <div class="eq-qty">×${eq.cant||1}</div>
+            <button onclick="delEqAmb('${esc(eq.id)}')" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px;line-height:1">×</button>
+          </div>
+        </div>`;
+      });
+    }
+
+    // FALTANTES
+    if(faltantes.length){
+      html+=`<div class="eq-section-title falta"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Faltantes según norma (${faltantes.length})</div>`;
+      faltantes.forEach(x=>{
+        html+=`<div class="falta-row">
+          <div class="falta-icon"></div>
+          <div style="flex:1;min-width:0">
+            <div class="falta-name">${x.d}</div>
+            <div class="falta-code">${x.c} · ×${x.q}</div>
+          </div>
+          <button class="btn btn-ghost btn-sm" style="flex:0;padding:5px 8px;font-size:11px" onclick="quickAddFromFaltante('${esc(amb.id)}','${esc(x.c)}','${esc(x.d)}',${x.q})">
+            <svg viewBox="0 0 24 24" style="width:12px;height:12px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Agregar
+          </button>
+        </div>`;
+      });
+    }
+
+    // ADD EQUIPO BTN
+    html+=`<div style="padding:10px 0 2px">
+      <button class="btn btn-ghost btn-sm" onclick="openAddEqModal('${esc(amb.id)}','${esc(amb.nombre)}','${esc(amb.normaAmb||'')}','${esc(amb.normaNorma||_proj.norma||'')}')" style="width:100%">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Agregar equipo a este ambiente
+      </button>
+    </div>`;
     html+='</div></div>';
-  });
+  }
+
+  if(!ambs.length){
+    html='<div class="empty"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg><p>Sin ambientes. Toca "+ Amb." para agregar el primer ambiente de tu proyecto.</p></div>';
+  }
+
+  // Progress
+  const total=totalNorma+totalExtra;
+  const pct=total?Math.round(checked/total*100):0;
+  if(!total&&!ambs.length) { document.getElementById('inv-content').innerHTML=html; return; }
+  document.getElementById('inv-bar').style.width=pct+'%';
+  document.getElementById('inv-pct-txt').textContent=pct+'% completado';
+  const faltTot=ambs.reduce((s,_)=>s,0);
   document.getElementById('inv-content').innerHTML=html;
 }
-window.toggleCheck=async function(k,norma,upss,amb,cod){
-  const id=activeProjId+'_'+k;
-  const existing=await fsGet('inventario',id);
-  const newState={id,proyId:activeProjId,itemKey:k,checked:!existing?.checked,norma,upss,amb,cod};
+
+window.toggleCheckAmb=async function(k,eqId){
+  const existing=await fsGet('inventario',k);
+  const newState={id:k,proyId:activeProjId,itemKey:k,eqId,checked:!existing?.checked};
   const row=document.getElementById('row_'+CSS.escape(k));
   if(row) row.querySelector('.eq-check').classList.toggle('checked',newState.checked);
-  await fsSave('inventario',id,newState);
-  const proj=await fsGet('proyectos',activeProjId);
-  const invItems=await fsQuery('inventario','proyId',activeProjId);
-  const extras=await fsQuery('equipos_extra','proyId',activeProjId);
-  const total=(NTS[proj.norma]||[]).length+extras.length;
-  const checked=invItems.filter(x=>x.checked).length;
-  const pct=total?Math.round(checked/total*100):0;
-  document.getElementById('inv-pct').textContent=pct+'%';
-  document.getElementById('inv-bar').style.width=pct+'%';
+  await fsSave('inventario',k,newState);
+}
+
+// ── UPSS ──────────────────────────────────────────────────────────────────────
+window.upssTab=function(t){
+  _upssMode=t;
+  document.querySelectorAll('#modal-add-upss .tab').forEach((el,i)=>el.classList.toggle('active',['norma','libre'][i]===t));
+  document.getElementById('ut-norma').style.display=t==='norma'?'block':'none';
+  document.getElementById('ut-libre').style.display=t==='libre'?'block':'none';
+}
+window.loadUPSSFromNorma=function(){
+  const norma=document.getElementById('au-norma').value;
+  const el=document.getElementById('au-upss-norma');
+  el.innerHTML='<option value="">Selecciona UPSS...</option>';
+  if(norma)[...new Set((NTS[norma]||[]).map(x=>x.u))].sort().forEach(u=>el.innerHTML+=`<option value="${esc(u)}">${u}</option>`);
+}
+window.searchUPSSSimilar=function(){
+  const q=document.getElementById('au-similar-q').value.trim().toLowerCase();
+  const el=document.getElementById('au-similar-list');
+  if(!q){el.innerHTML='';return}
+  let res=[];
+  ['NTS-110','NTS-113','NTS-119'].forEach(n=>[...new Set((NTS[n]||[]).map(x=>x.u))].forEach(u=>{if(u.toLowerCase().includes(q)) res.push({n,u})}));
+  res=res.slice(0,12);
+  el.innerHTML=res.map(r=>`<div class="similar-item" onclick="selectUPSSSim('${esc(r.u)}','${esc(r.n)}',this)">
+    <span class="si-code">${r.n}</span><span>${r.u}</span>
+  </div>`).join('');
+}
+window.selectUPSSSim=function(u,n,el){
+  document.querySelectorAll('#au-similar-list .similar-item').forEach(x=>x.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('au-similar-val').value=u;
+  document.getElementById('au-similar-norma').value=n;
+}
+window.saveUPSS=async function(){
+  let nombre,normaUpss='',normaNorma='';
+  if(_upssMode==='norma'){
+    normaUpss=document.getElementById('au-upss-norma').value;
+    if(!normaUpss){alert('Selecciona una UPSS de la norma');return}
+    normaNorma=document.getElementById('au-norma').value;
+    nombre=document.getElementById('au-nombre-propio').value.trim()||normaUpss;
+  } else {
+    nombre=document.getElementById('au-nombre-libre').value.trim();
+    if(!nombre){alert('Ingresa el nombre de la UPSS');return}
+    normaUpss=document.getElementById('au-similar-val').value;
+    normaNorma=document.getElementById('au-similar-norma').value;
+  }
+  const obj={id:'upss_'+Date.now(),proyId:activeProjId,nombre,normaUpss,normaNorma,created:Date.now()};
+  await fsSave('my_upss',obj.id,obj);
+  closeModal('add-upss');
+  document.getElementById('au-nombre-propio').value='';document.getElementById('au-nombre-libre').value='';
+  document.getElementById('au-similar-val').value='';document.getElementById('au-similar-list').innerHTML='';
+  document.getElementById('au-upss-norma').innerHTML='<option value="">Primero selecciona norma...</option>';
+  toast('✅ UPSS agregada');
+  await refreshUPSSSelector();loadInvAmbs();
+}
+
+// ── AMBIENTES ─────────────────────────────────────────────────────────────────
+window.openAddAmbModal=async function(){
+  // Populate UPSS list from my_upss
+  const myUpss=await fsQuery('my_upss','proyId',activeProjId);
+  // Also populate norma UPSS selector
+  const normas=['NTS-110','NTS-113','NTS-119'];
+  const allNormaUpss=[];
+  normas.forEach(n=>[...new Set((NTS[n]||[]).map(x=>x.u))].forEach(u=>allNormaUpss.push({n,u})));
+  const sel=document.getElementById('aa-upss-norma');
+  sel.innerHTML='<option value="">Selecciona UPSS...</option>';
+  allNormaUpss.forEach(({n,u})=>sel.innerHTML+=`<option value="${esc(u)}||SEP||${esc(n)}">${u} (${n})</option>`);
+  ambTab('norma');
+  openModal('add-amb');
+}
+window.ambTab=function(t){
+  _ambMode=t;
+  document.querySelectorAll('#modal-add-amb .tab').forEach((el,i)=>el.classList.toggle('active',['norma','libre'][i]===t));
+  document.getElementById('at-norma').style.display=t==='norma'?'block':'none';
+  document.getElementById('at-libre').style.display=t==='libre'?'block':'none';
+}
+window.loadAmbsFromNorma=function(){
+  const val=document.getElementById('aa-upss-norma').value;
+  const el=document.getElementById('aa-amb-norma');
+  el.innerHTML='<option value="">Selecciona ambiente...</option>';
+  if(!val) return;
+  const [upss,norma]=val.split('|');
+  const ambs=[...new Set((NTS[norma]||[]).filter(x=>x.u===upss).map(x=>x.a))].sort();
+  ambs.forEach(a=>el.innerHTML+=`<option value="${esc(a)}">${a}</option>`);
+}
+window.searchAmbSimilar=function(){
+  const q=document.getElementById('aa-similar-q').value.trim().toLowerCase();
+  const el=document.getElementById('aa-similar-list');
+  if(!q){el.innerHTML='';return}
+  let res=[];
+  ['NTS-110','NTS-113','NTS-119'].forEach(n=>{
+    const upssMap={};
+    (NTS[n]||[]).forEach(x=>{if(!upssMap[x.a])upssMap[x.a]=x.u});
+    Object.entries(upssMap).forEach(([a,u])=>{if(a.toLowerCase().includes(q)) res.push({n,a,u})});
+  });
+  res=res.slice(0,15);
+  el.innerHTML=res.map(r=>`<div class="similar-item" onclick="selectAmbSim('${esc(r.a)}','${esc(r.n)}','${esc(r.u)}',this)">
+    <span class="si-code">${r.n}</span><span style="flex:1;min-width:0"><div style="font-size:12px">${r.a}</div><div style="font-size:10px;color:var(--text3)">${r.u}</div></span>
+  </div>`).join('');
+}
+window.selectAmbSim=function(a,n,u,el){
+  document.querySelectorAll('#aa-similar-list .similar-item').forEach(x=>x.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('aa-similar-val').value=a;
+  document.getElementById('aa-similar-norma-val').value=n;
+  document.getElementById('aa-similar-upss-val').value=u;
+}
+window.saveAmbiente=async function(){
+  let nombre,normaAmb='',normaNorma='',normaUpss='';
+  const upssId=document.getElementById('inv-upss').value;
+  const myUpss=_curUpssList.find(u=>u.id===upssId);
+  if(_ambMode==='norma'){
+    const ambVal=document.getElementById('aa-amb-norma').value;
+    if(!ambVal){alert('Selecciona un ambiente de la norma');return}
+    const upssVal=document.getElementById('aa-upss-norma').value;
+    const [upssNorma,nNorma]=upssVal.split('|');
+    normaAmb=ambVal;normaNorma=nNorma;normaUpss=upssNorma;
+    nombre=document.getElementById('aa-nombre-propio').value.trim()||normaAmb;
+  } else {
+    nombre=document.getElementById('aa-nombre-libre').value.trim();
+    if(!nombre){alert('Ingresa el nombre del ambiente');return}
+    normaAmb=document.getElementById('aa-similar-val').value;
+    normaNorma=document.getElementById('aa-similar-norma-val').value;
+    normaUpss=document.getElementById('aa-similar-upss-val').value;
+  }
+  const obj={
+    id:'amb_'+Date.now(),proyId:activeProjId,
+    upssId:upssId||'',upssNombre:myUpss?.nombre||normaUpss||'',
+    nombre,normaAmb,normaNorma,normaUpss,created:Date.now()
+  };
+  await fsSave('my_ambientes',obj.id,obj);
+  closeModal('add-amb');
+  ['aa-nombre-propio','aa-nombre-libre','aa-similar-q','aa-similar-val','aa-similar-norma-val','aa-similar-upss-val'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});
+  document.getElementById('aa-similar-list').innerHTML='';
+  toast('✅ Ambiente agregado');
+  loadInvAmbs();
+}
+
+// ── EQUIPOS AL AMBIENTE ───────────────────────────────────────────────────────
+let _curAmbId='',_curAmbNorma='',_curAmbNormaAmb='';
+window.openAddEqModal=function(ambId,ambNombre,normaAmb,normaNorma){
+  _curAmbId=ambId;_curAmbNorma=normaNorma;_curAmbNormaAmb=normaAmb;
+  document.getElementById('aeq-title').textContent='Equipo para: '+ambNombre.substring(0,30);
+  eqTab('norma');
+  openModal('add-eq-amb');
+}
+window.eqTab=function(t){
+  _eqMode=t;
+  document.querySelectorAll('#modal-add-eq-amb .tab').forEach((el,i)=>el.classList.toggle('active',['norma','libre'][i]===t));
+  document.getElementById('et-norma').style.display=t==='norma'?'block':'none';
+  document.getElementById('et-libre').style.display=t==='libre'?'block':'none';
+  if(t==='norma') filterEqNorma();
+}
+window.filterEqNorma=async function(){
+  const q=(document.getElementById('aeq-q').value||'').trim().toLowerCase();
+  const normaItems=_curAmbNorma&&_curAmbNormaAmb?(NTS[_curAmbNorma]||[]).filter(x=>x.a===_curAmbNormaAmb):[];
+  // Also get items from project norma if different
+  const projItems=(_proj&&_proj.norma)?(NTS[_proj.norma]||[]).filter(x=>x.a===(_curAmbNormaAmb||'')):[];
+  let items=[...normaItems];
+  if(!items.length) items=[...projItems];
+  if(q) items=items.filter(x=>x.d.toLowerCase().includes(q)||x.c.toLowerCase().includes(q));
+  const myEqs=await fsQuery('my_equipos','ambId',_curAmbId);
+  const linkedCodes=new Set(myEqs.filter(e=>e.normaCode).map(e=>e.normaCode));
+  const el=document.getElementById('aeq-norma-list');
+  if(!items.length){el.innerHTML='<p style="font-size:12px;color:var(--text3);padding:8px">Sin equipos en la norma para este ambiente. Usa "Equipo libre".</p>';return}
+  el.innerHTML=items.map(x=>`<div class="similar-item ${linkedCodes.has(x.c)?'selected':''}" onclick="selectEqNorma('${esc(x.c)}','${esc(x.d)}',${x.q},this)">
+    <span class="si-code">${x.c}</span>
+    <span style="flex:1;min-width:0">
+      <div style="font-size:12px;line-height:1.3">${x.d}</div>
+      <div style="font-size:10px;color:var(--text3)">×${x.q} ${linkedCodes.has(x.c)?'✓ Ya agregado':''}</div>
+    </span>
+  </div>`).join('');
+}
+let _selEqs=new Set();
+window.selectEqNorma=async function(cod,desc,cant,el){
+  // Toggle selection — allow multi-select
+  if(el.classList.contains('selected')) return; // already added
+  // Save immediately
+  const eq={id:'eq_'+Date.now(),proyId:activeProjId,ambId:_curAmbId,nombre:desc,codigo:cod,normaCode:cod,cant,created:Date.now()};
+  await fsSave('my_equipos',eq.id,eq);
+  el.classList.add('selected');
+  el.querySelector('div:last-child').textContent='×'+cant+' ✓ Agregado';
+  toast('✅ '+desc.substring(0,30)+'...');
+  loadInvEquipos();
+}
+window.quickAddFromFaltante=async function(ambId,cod,desc,cant){
+  const eq={id:'eq_'+Date.now(),proyId:activeProjId,ambId,nombre:desc,codigo:cod,normaCode:cod,cant,created:Date.now()};
+  await fsSave('my_equipos',eq.id,eq);
+  toast('✅ Equipo agregado');
+  loadInvEquipos();
+}
+window.searchEqSimilar=function(){
+  const q=document.getElementById('aeq-sim-q').value.trim().toLowerCase();
+  const el=document.getElementById('aeq-sim-list');
+  if(!q){el.innerHTML='';return}
+  const normas=['NTS-110','NTS-113','NTS-119'];
+  let res=[];
+  normas.forEach(n=>(NTS[n]||[]).filter(x=>x.d.toLowerCase().includes(q)||x.c.toLowerCase().includes(q)).slice(0,8).forEach(x=>res.push({...x,n})));
+  el.innerHTML=res.slice(0,15).map(r=>`<div class="similar-item" onclick="selectEqSim('${esc(r.c)}','${esc(r.d)}',this)">
+    <span class="si-code">${r.c}</span><span style="flex:1;font-size:12px">${r.d}<div style="font-size:10px;color:var(--text3)">${r.n}</div></span>
+  </div>`).join('');
+}
+window.selectEqSim=function(cod,desc,el){
+  document.querySelectorAll('#aeq-sim-list .similar-item').forEach(x=>x.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('aeq-sim-cod').value=cod;
+  document.getElementById('aeq-sim-desc').value=desc;
+}
+window.saveEqAmbiente=async function(){
+  const nombre=document.getElementById('aeq-nombre').value.trim();
+  if(!nombre){alert('Ingresa el nombre del equipo');return}
+  const simCod=document.getElementById('aeq-sim-cod').value;
+  const eq={id:'eq_'+Date.now(),proyId:activeProjId,ambId:_curAmbId,
+    nombre,codigo:document.getElementById('aeq-codigo').value.trim()||simCod||'EXT-'+Date.now().toString().slice(-4),
+    normaCode:simCod||'',cant:parseInt(document.getElementById('aeq-cant').value)||1,
+    normaDesc:document.getElementById('aeq-sim-desc').value,created:Date.now()};
+  await fsSave('my_equipos',eq.id,eq);
+  closeModal('add-eq-amb');
+  ['aeq-nombre','aeq-codigo','aeq-cant','aeq-sim-q','aeq-sim-cod','aeq-sim-desc'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=id==='aeq-cant'?'1':''});
+  document.getElementById('aeq-sim-list').innerHTML='';
+  toast('✅ Equipo agregado');loadInvEquipos();
+}
+window.delEqAmb=async function(eqId){
+  if(!confirm('¿Eliminar este equipo del ambiente?')) return;
+  await fsDel('my_equipos',eqId);
+  toast('Equipo eliminado');loadInvEquipos();
 }
 
 // ── EQUIPOS Y AMBIENTES EXTRA ────────────────────────────────────────────────
@@ -1027,6 +1369,19 @@ window.exportInventario=async function(){
 .qs-code{font-size:13px;font-weight:700;color:var(--accent);min-width:52px;flex-shrink:0}
 .qs-desc{font-size:13px;flex:1;line-height:1.4}
 .qs-badge{font-size:10px;color:var(--text2);display:block;margin-top:2px}
+
+.similar-item{padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:5px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:8px}
+.similar-item:active,.similar-item.selected{background:var(--accent);border-color:var(--accent);color:#fff}
+.similar-item .si-code{font-size:11px;font-weight:700;color:var(--accent);min-width:44px;flex-shrink:0}
+.similar-item.selected .si-code{color:#fff}
+.eq-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;padding:8px 14px 4px;display:flex;align-items:center;gap:6px}
+.eq-section-title.cumple{color:var(--green)}
+.eq-section-title.falta{color:var(--yellow)}
+.eq-section-title.extra{color:#F97316}
+.falta-row{padding:8px 14px;display:flex;align-items:center;gap:8px;border-top:1px solid var(--border);opacity:.7}
+.falta-row .falta-icon{width:18px;height:18px;border:2px dashed var(--yellow);border-radius:4px;flex-shrink:0}
+.falta-name{font-size:12px;color:var(--text2);flex:1}
+.falta-code{font-size:11px;color:var(--text3)}
 </style></head><body><h1>Informe de Inventario de Equipamiento</h1><p style="font-size:11px;color:#666"><b>Establecimiento:</b> ${proj.nombre} | <b>Norma:</b> ${proj.norma} | <b>Categoría:</b> ${proj.categoria||'—'} | <b>Responsable:</b> ${proj.responsable||'—'} | <b>Fecha:</b> ${fecha}</p><div class="res"><div class="st"><b>${total}</b>Total</div><div class="st"><b style="color:#22C55E">${checked}</b>Verificados</div><div class="st"><b style="color:#EF4444">${total-checked}</b>Pendientes</div><div class="st"><b>${pct}%</b>Avance</div></div><table><tr><th>Código</th><th>Descripción</th><th>Cant.</th><th>Estado</th><th>Marca/Modelo</th><th>N° Serie</th></tr>${rows}</table><div class="np" style="margin-top:12px;text-align:center"><button onclick="window.print()" style="padding:8px 20px;background:#2E7BF6;color:#fff;border:none;border-radius:6px;cursor:pointer">🖨️ Imprimir / Guardar PDF</button></div></body></html>`);
 }
 window.exportDificultades=async function(){
@@ -1047,6 +1402,19 @@ window.exportDificultades=async function(){
 .qs-code{font-size:13px;font-weight:700;color:var(--accent);min-width:52px;flex-shrink:0}
 .qs-desc{font-size:13px;flex:1;line-height:1.4}
 .qs-badge{font-size:10px;color:var(--text2);display:block;margin-top:2px}
+
+.similar-item{padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:5px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:8px}
+.similar-item:active,.similar-item.selected{background:var(--accent);border-color:var(--accent);color:#fff}
+.similar-item .si-code{font-size:11px;font-weight:700;color:var(--accent);min-width:44px;flex-shrink:0}
+.similar-item.selected .si-code{color:#fff}
+.eq-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;padding:8px 14px 4px;display:flex;align-items:center;gap:6px}
+.eq-section-title.cumple{color:var(--green)}
+.eq-section-title.falta{color:var(--yellow)}
+.eq-section-title.extra{color:#F97316}
+.falta-row{padding:8px 14px;display:flex;align-items:center;gap:8px;border-top:1px solid var(--border);opacity:.7}
+.falta-row .falta-icon{width:18px;height:18px;border:2px dashed var(--yellow);border-radius:4px;flex-shrink:0}
+.falta-name{font-size:12px;color:var(--text2);flex:1}
+.falta-code{font-size:11px;color:var(--text3)}
 </style></head><body><h1>Informe de Dificultades</h1><p style="font-size:11px;color:#666"><b>Establecimiento:</b> ${proj.nombre} | <b>Norma:</b> ${proj.norma} | <b>Fecha:</b> ${fecha}</p><div class="res"><div class="st"><b style="color:#EF4444">${alta}</b>Alta</div><div class="st"><b style="color:#F59E0B">${media}</b>Media</div><div class="st"><b style="color:#22C55E">${baja}</b>Baja</div><div class="st"><b>${alta+media+baja}</b>Total</div></div>${allDifs.map(d=>`<div class="dif ${d.p}"><div style="font-weight:bold;font-size:10px;text-transform:uppercase;color:${d.p==='alta'?'#991b1b':d.p==='media'?'#92400e':'#065f46'}">${d.p}</div><div style="font-size:13px;margin:4px 0">${d.desc}</div>${d.acc?`<div style="font-size:11px;color:#2E7BF6">→ ${d.acc}</div>`:''}<div style="font-size:10px;color:#999;margin-top:2px">${new Date(d.date).toLocaleDateString('es-PE')}</div></div>`).join('')||'<p>Sin dificultades.</p>'}<div class="np" style="margin-top:12px;text-align:center"><button onclick="window.print()" style="padding:8px 20px;background:#EF4444;color:#fff;border:none;border-radius:6px;cursor:pointer">🖨️ Imprimir / PDF</button></div></body></html>`);
 }
 window.exportCondiciones=async function(){
@@ -1065,6 +1433,19 @@ window.exportCondiciones=async function(){
 .qs-code{font-size:13px;font-weight:700;color:var(--accent);min-width:52px;flex-shrink:0}
 .qs-desc{font-size:13px;flex:1;line-height:1.4}
 .qs-badge{font-size:10px;color:var(--text2);display:block;margin-top:2px}
+
+.similar-item{padding:8px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:5px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:8px}
+.similar-item:active,.similar-item.selected{background:var(--accent);border-color:var(--accent);color:#fff}
+.similar-item .si-code{font-size:11px;font-weight:700;color:var(--accent);min-width:44px;flex-shrink:0}
+.similar-item.selected .si-code{color:#fff}
+.eq-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;padding:8px 14px 4px;display:flex;align-items:center;gap:6px}
+.eq-section-title.cumple{color:var(--green)}
+.eq-section-title.falta{color:var(--yellow)}
+.eq-section-title.extra{color:#F97316}
+.falta-row{padding:8px 14px;display:flex;align-items:center;gap:8px;border-top:1px solid var(--border);opacity:.7}
+.falta-row .falta-icon{width:18px;height:18px;border:2px dashed var(--yellow);border-radius:4px;flex-shrink:0}
+.falta-name{font-size:12px;color:var(--text2);flex:1}
+.falta-code{font-size:11px;color:var(--text3)}
 </style></head><body><h1>Informe de Condiciones de Ambientes</h1><p style="font-size:11px;color:#666"><b>Establecimiento:</b> ${proj.nombre} | <b>Norma:</b> ${proj.norma} | <b>Fecha:</b> ${fecha}</p>${condItems.map(c=>`<h2>${c.upss||''} › ${c.amb||''}</h2><table>${labs.map(([k,l])=>c[k]?`<tr><td>${l}</td><td>${c[k]}</td></tr>`:'').join('')}</table>`).join('')||'<p>Sin condiciones.</p>'}<div class="np" style="margin-top:12px;text-align:center"><button onclick="window.print()" style="padding:8px 20px;background:#22C55E;color:#fff;border:none;border-radius:6px;cursor:pointer">🖨️ Imprimir / PDF</button></div></body></html>`);
 }
 window.exportBackupJSON=async function(){
